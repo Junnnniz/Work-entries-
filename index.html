@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In to Work</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    
+    h1 {
+      color: #ff4500;
+      text-align: center;
+      padding-top: 20px;
+    }
+    
+    p {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px;
+    }
+    
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 80%;
+      background-color: #e0f7fa;
+      color: #000;
+      border: 2px solid #ff4500;
+      border-radius: 10px;
+    }
+    
+    table td {
+      padding: 10px;
+      border-bottom: 1px solid #ff4500;
+    }
+
+    td.label {
+      text-align: right;
+      font-weight: bold;
+      color: #ff4500;
+    }
+
+    td.input {
+      text-align: left;
+    }
+    
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #ff4500;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #ff6347;
+    }
+    
+    #logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    #unusual-explanation {
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="logo">
+    <img src="path/to/company-logo.png" alt="Company Logo" width="100">
+  </div>
+
+  <h1>
+    BIG DOG SECURITY 
+  </h1>
+  <p>
+    Please type in your ID, name, and place of work.<br>
+    Make sure the information matches the one on your work ID.<br><br>
+    BIG DOG SECURITY: Security comes first.
+  </p>
+
+  <table>
+    <tr>
+      <td class="label">First Name:</td>
+      <td class="input"><input type="text" id="firstName" required></td>
+    </tr>
+    <tr>
+      <td class="label">Last Name:</td>
+      <td class="input"><input type="text" id="lastName" required></td>
+    </tr>
+    <tr>
+      <td class="label">ID:</td>
+      <td class="input"><input type="text" id="idNumber" required></td>
+    </tr>
+    <tr>
+      <td class="label">Time of Report:</td>
+      <td class="input"><input type="time" id="timeOfReport" required></td>
+    </tr>
+    <tr>
+      <td class="label">Day:</td>
+      <td class="input"><input type="text" id="day" required></td>
+    </tr>
+    <tr>
+      <td class="label">Date:</td>
+      <td class="input"><input type="date" id="date" required></td>
+    </tr>
+    <tr>
+      <td class="label">Anything Unusual:</td>
+      <td class="input">
+        <select id="unusual" onchange="toggleExplanation()" required>
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+        <div id="unusual-explanation">
+          <label for="explanation">Please explain:</label>
+          <input type="text" id="explanation">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Photo:</td>
+      <td class="input"><input type="file" id="photo" accept="image/*" required></td>
+    </tr>
+  </table>
+
+  <button onclick="submitForm()">Sign In</button>
+
+  <script>
+    function toggleExplanation() {
+      var unusual = document.getElementById("unusual").value;
+      var explanation = document.getElementById("unusual-explanation");
+      if (unusual === "Yes") {
+        explanation.style.display = "block";
+      } else {
+        explanation.style.display = "none";
+      }
+    }
+
+    function submitForm() {
+      var firstName = document.getElementById("firstName").value;
+      var lastName = document.getElementById("lastName").value;
+      var idNumber = document.getElementById("idNumber").value;
+      var timeOfReport = document.getElementById("timeOfReport").value;
+      var day = document.getElementById("day").value;
+      var date = document.getElementById("date").value;
+      var unusual = document.getElementById("unusual").value;
+      var explanation = document.getElementById("explanation").value;
+      var photo = document.getElementById("photo").files[0];
+      
+      // Build the WhatsApp message text
+      var message = "First Name: " + firstName + "\n" +
+                    "Last Name: " + lastName + "\n" +
+                    "ID: " + idNumber + "\n" +
+                    "Time of Report: " + timeOfReport + "\n" +
+                    "Day: " + day + "\n" +
+                    "Date: " + date + "\n" +
+                    "Anything Unusual: " + unusual;
+      if (unusual === "Yes") {
+        message += "\nExplanation: " + explanation;
+      }
+
+      // Encode the message for URL
+      var encodedMessage = encodeURIComponent(message);
+
+      // Build the WhatsApp URL
+      var whatsappUrl = "https://wa.me/254740938743?text=" + encodedMessage;
+
+      // Redirect to WhatsApp URL
+      if (photo) {
+        alert("Please send the photo manually to WhatsApp after submitting this form.");
+      }
+      window.location.href = whatsappUrl;
+    }
+  </script>
+</body>
+</html>
